@@ -3,27 +3,1460 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DAIKO HR - Prototypes</title>
+  <title>Daiko HR — Employee Management & Process Orchestration</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter & Plus Jakarta Sans Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: '#1B3A2A',
+            forestDark: '#12271C',
+            forestLight: '#264F3B',
+            lime: '#C4F542',
+            limeHover: '#B3E435',
+            mintBg: '#F4F7F0',
+            cardBg: '#FFFFFF',
+            borderSubtle: '#E2E8DC',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #F4F7F0; }
+    h1, h2, h3, .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8DC; border-radius: 9999px; }
+    @keyframes checkmarkPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop { animation: checkmarkPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-6 font-sans">
-  <div class="max-w-md w-full bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-2xl text-center">
-    <h1 class="text-2xl font-bold text-slate-100 mb-2">DAIKO HR Prototypes</h1>
-    <p class="text-slate-400 text-sm mb-8">Select a prototype version to review:</p>
-    
-    <div class="flex flex-col gap-4">
-      <a href="./daiko_hr_prototype.html" 
-         class="w-full py-3.5 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-slate-500 rounded-xl font-medium transition flex items-center justify-between">
-        <span>Prototype 1 (Standard)</span>
-        <span class="text-xs bg-slate-800 px-2.5 py-1 rounded-md text-slate-300">v1.0 &rarr;</span>
-      </a>
+<body class="text-slate-800 antialiased flex h-screen overflow-hidden select-none">
 
-      <a href="./daiko_hr_unified_prototype.html" 
-         class="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium transition shadow-lg shadow-indigo-600/30 flex items-center justify-between">
-        <span>Prototype 2 (Unified)</span>
-        <span class="text-xs bg-indigo-700 px-2.5 py-1 rounded-md text-indigo-100">v2.0 &rarr;</span>
-      </a>
+  <!-- ========================================================================= -->
+  <!-- PERSISTENT SIDEBAR NAVIGATION                                             -->
+  <!-- ========================================================================= -->
+  <aside class="w-64 bg-forest text-white flex flex-col justify-between shrink-0 shadow-2xl z-20">
+    <div>
+      <!-- Brand Logo -->
+      <div class="px-6 py-6 border-b border-forestLight/40 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-lime flex items-center justify-center font-black text-forest text-xl font-heading shadow-md shadow-lime/20">
+          D
+        </div>
+        <div>
+          <span class="text-lg font-black tracking-tight text-white font-heading">Daiko HR</span>
+          <span class="block text-[10px] font-semibold text-lime tracking-widest uppercase">Orchestration</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="p-3 space-y-1 mt-2">
+        <button onclick="navigate('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all bg-lime text-forest font-bold shadow-sm">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button onclick="navigate('goals')" id="nav-goals" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-forestLight hover:text-white transition-all">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Goals & Alignment</span>
+        </button>
+
+        <button onclick="navigate('skills')" id="nav-skills" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-forestLight hover:text-white transition-all">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+          <span>Skills & Talent Profile</span>
+        </button>
+
+        <button onclick="navigate('oneonone')" id="nav-oneonone" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-forestLight hover:text-white transition-all">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <div class="flex items-center justify-between w-full">
+            <span>1:1 Management</span>
+            <span class="w-2 h-2 rounded-full bg-lime"></span>
+          </div>
+        </button>
+
+        <button onclick="navigate('pulse')" id="nav-pulse" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-forestLight hover:text-white transition-all">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <div class="flex items-center justify-between w-full">
+            <span>Pulse Survey</span>
+            <span class="text-[9px] bg-lime/20 text-lime px-1.5 py-0.5 rounded font-bold">30s</span>
+          </div>
+        </button>
+
+        <button onclick="navigate('feedback')" id="nav-feedback" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-forestLight hover:text-white transition-all">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          <span>Continuous Feedback</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- User / Organization Badge -->
+    <div class="p-4 border-t border-forestLight/40">
+      <div class="bg-forestLight/50 p-3 rounded-2xl flex items-center gap-3 border border-forestLight/60">
+        <div class="w-8 h-8 rounded-xl bg-slate-700 font-bold flex items-center justify-center text-xs text-white border border-lime/40">
+          AY
+        </div>
+        <div class="overflow-hidden">
+          <div class="text-xs font-bold text-white truncate">Anushka Yadav</div>
+          <div class="text-[10px] text-slate-300 truncate">Software Engineer • Platform Team</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN APP WORKSPACE (TOP BAR + CONTENT REGION)                             -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    
+    <!-- Top Header Bar -->
+    <header class="h-16 bg-white border-b border-borderSubtle px-8 flex items-center justify-between shrink-0 z-10">
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider" id="breadcrumb-section">WORKSPACE</span>
+        <span class="text-slate-300">/</span>
+        <h2 class="text-base font-extrabold text-forest font-heading" id="header-title">Executive Dashboard</h2>
+      </div>
+
+      <!-- Context Pills -->
+      <div class="flex items-center gap-3">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Google Calendar Synced</span>
+        </div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold">
+          <span class="font-bold text-forest">Sprint #42</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable Module Content Container -->
+    <main class="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
+      
+      <!-- ===================================================================== -->
+      <!-- 1. DASHBOARD MODULE                                                   -->
+      <!-- ===================================================================== -->
+      <section id="page-dashboard" class="space-y-6">
+        
+        <!-- Welcome Hero -->
+        <div class="bg-forest text-white p-7 rounded-3xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
+          <div class="relative z-10 max-w-xl">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-lime text-forest uppercase tracking-wider mb-2">
+              ORCHESTRATION PULSE
+            </span>
+            <h1 class="text-2xl font-extrabold font-heading tracking-tight text-white">Good afternoon, Anushka.</h1>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              Your 1:1 with Alex is scheduled today at 4:30 PM. 1 blocker from your recent pulse check has been synced directly to your agenda.
+            </p>
+          </div>
+          <div class="flex items-center gap-3 relative z-10">
+            <button onclick="navigate('pulse')" class="px-5 py-3 rounded-full bg-lime hover:bg-limeHover text-forest font-bold text-xs shadow-md transition-all flex items-center gap-2">
+              <span>⚡ Complete 30-Sec Pulse</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stat Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Card 1 -->
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm hover:border-forest/20 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Goals on Track</span>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">83%</span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="text-3xl font-black text-forest font-heading">5 of 6</span>
+              <span class="text-xs text-slate-500 font-medium">active goals</span>
+            </div>
+            <p class="text-[11px] text-amber-600 font-semibold mt-2">⚠️ 1 goal requires monthly check-in</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm hover:border-forest/20 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Next 1:1 Sync</span>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">Today</span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="text-2xl font-black text-forest font-heading">4:30 PM</span>
+              <span class="text-xs text-slate-500 font-medium">with Alex (Manager)</span>
+            </div>
+            <p class="text-[11px] text-purple-700 font-semibold mt-2">2 topics queued on living agenda</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm hover:border-forest/20 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Pending Feedback</span>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-lime/30 text-forest">1 New</span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="text-3xl font-black text-forest font-heading">4 Logs</span>
+              <span class="text-xs text-slate-500 font-medium">this quarter</span>
+            </div>
+            <p class="text-[11px] text-emerald-700 font-semibold mt-2">✓ 100% named & transparent</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm hover:border-forest/20 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Pulse Index</span>
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">4.8 / 5</span>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span class="text-3xl font-black text-forest font-heading">94%</span>
+              <span class="text-xs text-slate-500 font-medium">team velocity</span>
+            </div>
+            <p class="text-[11px] text-slate-500 font-medium mt-2">Avg. response time: 24 secs</p>
+          </div>
+        </div>
+
+        <!-- Split View: Recent Activity & Quick Handoffs -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Activity Feed (2 Cols) -->
+          <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+              <h3 class="text-sm font-bold text-forest font-heading">Recent Continuous Management Feed</h3>
+              <span class="text-xs text-slate-400 font-medium">Live Audit Log</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="p-3.5 rounded-xl bg-mintBg/60 border border-borderSubtle flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                    ✓
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-forest">Bi-Weekly Goal Progress Updated</h4>
+                    <p class="text-xs text-slate-600 mt-0.5">"API Gateway Spec Migration" progressed from 65% → 80% complete.</p>
+                    <span class="text-[10px] text-slate-400">2 hours ago • Automated Jira sync</span>
+                  </div>
+                </div>
+                <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">On Track</span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-mintBg/60 border border-borderSubtle flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                    💬
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-forest">New Micro-Win Logged by Alex (Manager)</h4>
+                    <p class="text-xs text-slate-600 mt-0.5">"Quick root-cause fix on staging auth latency under tight deadline."</p>
+                    <span class="text-[10px] text-slate-400">Yesterday • Added to permanent Talent Profile</span>
+                  </div>
+                </div>
+                <span class="text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">Kudos</span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-mintBg/60 border border-borderSubtle flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                    ⚠️
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-forest">Pulse Blocker Flagged to 1:1 Agenda</h4>
+                    <p class="text-xs text-slate-600 mt-0.5">"Waiting on database schema sign-off from platform team."</p>
+                    <span class="text-[10px] text-slate-400">Aug 24 • Queued for today's 1:1</span>
+                  </div>
+                </div>
+                <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Blocker</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Navigation Actions (1 Col) -->
+          <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+            <h3 class="text-sm font-bold text-forest font-heading pb-3 border-b border-borderSubtle">Instant Actions</h3>
+            
+            <div class="space-y-2.5">
+              <button onclick="navigate('oneonone')" class="w-full text-left p-3 rounded-xl bg-mintBg hover:bg-lime/20 border border-borderSubtle transition-all flex items-center justify-between group">
+                <div>
+                  <span class="block text-xs font-bold text-forest group-hover:text-forestDark">Add 1:1 Agenda Topic</span>
+                  <span class="text-[10px] text-slate-500">Conversational smart prompt</span>
+                </div>
+                <span class="text-xs text-forest font-black">→</span>
+              </button>
+
+              <button onclick="navigate('feedback')" class="w-full text-left p-3 rounded-xl bg-mintBg hover:bg-lime/20 border border-borderSubtle transition-all flex items-center justify-between group">
+                <div>
+                  <span class="block text-xs font-bold text-forest group-hover:text-forestDark">Give Peer Feedback</span>
+                  <span class="text-[10px] text-slate-500">1-click natural language agent</span>
+                </div>
+                <span class="text-xs text-forest font-black">→</span>
+              </button>
+
+              <button onclick="navigate('goals')" class="w-full text-left p-3 rounded-xl bg-mintBg hover:bg-lime/20 border border-borderSubtle transition-all flex items-center justify-between group">
+                <div>
+                  <span class="block text-xs font-bold text-forest group-hover:text-forestDark">Update Goal Progress</span>
+                  <span class="text-[10px] text-slate-500">Bi-weekly percentage slider</span>
+                </div>
+                <span class="text-xs text-forest font-black">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- 2. GOALS & ALIGNMENT MODULE                                           -->
+      <!-- ===================================================================== -->
+      <section id="page-goals" class="hidden space-y-6">
+        
+        <!-- Action Header -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-extrabold text-forest font-heading">Goal Alignment & Execution</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Track individual deliverables laddered up to organization OKRs with bi-weekly updates.</p>
+          </div>
+          <button onclick="toggleModal('modal-add-goal')" class="px-4 py-2 rounded-full bg-forest text-white hover:bg-forestDark font-bold text-xs shadow-md transition-all flex items-center gap-1.5">
+            <span>+ Add New Goal</span>
+          </button>
+        </div>
+
+        <!-- Goals Sub-Tabs / View Switcher -->
+        <div class="flex items-center gap-2 border-b border-borderSubtle pb-2">
+          <button onclick="switchGoalTab('my-goals')" id="btn-tab-mygoals" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-forest text-white">My Active Goals (4)</button>
+          <button onclick="switchGoalTab('manager-approvals')" id="btn-tab-mgrgoals" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-white">Manager Approval Queue (1)</button>
+          <button onclick="switchGoalTab('rollup-view')" id="btn-tab-rollup" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-white">Org Rollup & Slippage</button>
+        </div>
+
+        <!-- TAB 1: My Goals List -->
+        <div id="goal-tab-my-goals" class="space-y-4">
+          
+          <!-- Goal Card 1 -->
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-100 text-emerald-800 uppercase">On Track</span>
+                  <span class="text-xs text-slate-400 font-medium">Due Sept 30, 2026</span>
+                </div>
+                <h3 class="text-sm font-bold text-forest mt-1">API Gateway Latency Optimization & Spec Migration</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Reduce P99 response latency below 85ms across core microservices.</p>
+              </div>
+              <span class="text-xs font-black text-forest bg-mintBg px-3 py-1.5 rounded-xl border border-borderSubtle">80% Done</span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-forest h-full rounded-full w-4/5 transition-all duration-300"></div>
+            </div>
+
+            <!-- Inline Bi-Weekly Quick Update -->
+            <div class="pt-3 border-t border-borderSubtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-600">Bi-Weekly Slider:</span>
+                <input type="range" min="0" max="100" value="80" oninput="updateGoalSliderVal(this.value, 'goal-val-1')" class="accent-forest cursor-pointer w-28">
+                <span id="goal-val-1" class="font-extrabold text-forest">80%</span>
+              </div>
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <input type="text" placeholder="Add 1-line progress note..." class="bg-mintBg border border-borderSubtle rounded-lg px-3 py-1 text-xs w-full sm:w-64 focus:outline-none focus:border-forest">
+                <button onclick="showToast('Progress update logged to audit trail!')" class="px-3 py-1 bg-lime text-forest font-bold rounded-lg hover:bg-limeHover shrink-0">Update</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Goal Card 2 (At Risk) -->
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-100 text-amber-800 uppercase">At Risk</span>
+                  <span class="text-xs text-slate-400 font-medium">Due Aug 31, 2026</span>
+                </div>
+                <h3 class="text-sm font-bold text-forest mt-1">Staging Environment Automation & CI/CD Pipeline</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Automate zero-downtime test deployments using container clusters.</p>
+              </div>
+              <span class="text-xs font-black text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">55% Done</span>
+            </div>
+
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-amber-500 h-full rounded-full w-[55%] transition-all duration-300"></div>
+            </div>
+
+            <div class="pt-3 border-t border-borderSubtle flex items-center justify-between text-xs">
+              <span class="text-[11px] text-amber-700 font-semibold">⚠️ Flagged to 1:1: Blocked on infrastructure access.</span>
+              <button onclick="navigate('oneonone')" class="text-forest hover:underline font-bold">Review in Today's 1:1 →</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: Manager Approval View (Hidden by Default) -->
+        <div id="goal-tab-manager-approvals" class="hidden space-y-4">
+          <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded uppercase">Pending Approval</span>
+                <h3 class="text-sm font-bold text-forest mt-1.5">Nilesh Sharma (DevOps Engineer)</h3>
+                <p class="text-xs text-slate-600 mt-0.5"><span class="font-semibold">Goal Draft:</span> "Implement Automated Database Sharding & Failover Architecture"</p>
+                <p class="text-[11px] text-slate-400 mt-1">Target Metric: 99.99% database uptime • Due Date: Q4 2026</p>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-borderSubtle flex items-center justify-end gap-2.5">
+              <button onclick="rejectGoal(this)" class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 text-xs font-bold hover:bg-slate-50">Reject</button>
+              <button onclick="requestChangeGoal(this)" class="px-3.5 py-1.5 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 text-xs font-bold hover:bg-amber-100">Request Changes</button>
+              <button onclick="approveGoal(this)" class="px-4 py-1.5 rounded-lg bg-forest text-white text-xs font-bold hover:bg-forestDark shadow-sm">✓ Approve Goal</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Leadership Rollup (Hidden by Default) -->
+        <div id="goal-tab-rollup" class="hidden bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-5">
+          <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+            <h3 class="text-sm font-bold text-forest font-heading">Organization-Wide Goal Completion Matrix</h3>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">88.4% Org Completion</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between font-bold mb-1">
+                <span>Engineering & Infrastructure (24 Goals)</span>
+                <span class="text-forest">91.6%</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-forest h-full w-[91.6%]"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between font-bold mb-1">
+                <span>Product Management & UX (14 Goals)</span>
+                <span class="text-forest">85.0%</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-forest h-full w-[85%]"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between font-bold mb-1">
+                <span>Operations & Logistics (18 Goals)</span>
+                <span class="text-amber-600">72.2% (Slippage Warning)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div class="bg-amber-500 h-full w-[72.2%]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- 3. SKILLS & TALENT PROFILE MODULE                                     -->
+      <!-- ===================================================================== -->
+      <section id="page-skills" class="hidden space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-extrabold text-forest font-heading">Skills & Talent Intelligence</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Living talent profile enriched by Jira projects, verified peer feedback, and training records.</p>
+          </div>
+          <button onclick="toggleModal('modal-update-skills')" class="px-4 py-2 rounded-full bg-forest text-white hover:bg-forestDark font-bold text-xs shadow-md transition-all">
+            + Self-Service Skill Update
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Left: Profile Summary Card -->
+          <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-forest text-lime font-black text-xl flex items-center justify-center font-heading shadow-md">
+                AY
+              </div>
+              <div>
+                <h3 class="text-base font-extrabold text-forest font-heading">Anushka Yadav</h3>
+                <p class="text-xs text-slate-500 font-medium">B.Tech CSE • Platform Engineer</p>
+                <span class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full mt-1">
+                  ✓ Resume Ingested
+                </span>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-borderSubtle">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Auto-Extracted Tags</span>
+              <div class="flex flex-wrap gap-1.5 mt-2">
+                <span class="text-[11px] font-bold bg-mintBg text-forest px-2.5 py-1 rounded-lg border border-borderSubtle">Distributed Systems</span>
+                <span class="text-[11px] font-bold bg-mintBg text-forest px-2.5 py-1 rounded-lg border border-borderSubtle">FastAPI & Python</span>
+                <span class="text-[11px] font-bold bg-mintBg text-forest px-2.5 py-1 rounded-lg border border-borderSubtle">PostgreSQL</span>
+                <span class="text-[11px] font-bold bg-mintBg text-forest px-2.5 py-1 rounded-lg border border-borderSubtle">Docker / K8s</span>
+                <span class="text-[11px] font-bold bg-mintBg text-forest px-2.5 py-1 rounded-lg border border-borderSubtle">Public Speaking</span>
+              </div>
+            </div>
+
+            <div class="pt-3 border-t border-borderSubtle space-y-2">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Jira Project Ingest</span>
+              <div class="p-2.5 bg-mintBg rounded-xl border border-borderSubtle text-xs">
+                <span class="font-bold text-forest">Sprint #41 Auth Sharding</span>
+                <p class="text-[11px] text-slate-500 mt-0.5">Validated by Alex (Manager) • Rating: 4.8 / 5.0</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center & Right: Dimension Ratings & Gap Analysis (2 Cols) -->
+          <div class="lg:col-span-2 space-y-6">
+            
+            <!-- Skill Dimension Bars -->
+            <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-4">
+              <h3 class="text-sm font-bold text-forest font-heading pb-2 border-b border-borderSubtle">Validated Skill Dimensions</h3>
+              
+              <div class="space-y-3.5 text-xs">
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>System Architecture & Reliability</span>
+                    <span class="text-forest">4.5 / 5.0</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-forest h-full w-[90%]"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>API Design & Data Modeling</span>
+                    <span class="text-forest">4.8 / 5.0</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-forest h-full w-[96%]"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>Cross-Functional Communication</span>
+                    <span class="text-forest">4.0 / 5.0</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-forest h-full w-[80%]"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>Cloud Security Governance (IAM)</span>
+                    <span class="text-amber-600">3.2 / 5.0</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-amber-500 h-full w-[64%]"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gap Analysis & TNI Action Card -->
+            <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-forest font-heading">Target Gap Analysis (Senior Platform Lead)</h3>
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-lime text-forest uppercase">Suggested Action</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Gap identified in <span class="font-bold text-forest">Cloud Security Governance</span> against target Senior Lead taxonomy. Suggested next step: Enroll in the upcoming internal Cloud IAM Cohort or take a stretch assignment on Secret Rotation.
+              </p>
+              <div class="pt-2 flex gap-2">
+                <button onclick="showToast('Enrolled into Cloud Security training cohort!')" class="px-4 py-2 rounded-xl bg-forest text-white text-xs font-bold hover:bg-forestDark">
+                  ✓ Enroll in Cloud IAM Cohort
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- 4. ONE-ON-ONE (1:1) MANAGEMENT MODULE                                 -->
+      <!-- ===================================================================== -->
+      <section id="page-oneonone" class="hidden space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-extrabold text-forest font-heading">One-on-One (1:1) Execution Workspace</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Recurring bi-weekly cadence with living agenda, automatic task roll-over, and meeting tracking.</p>
+          </div>
+          <button onclick="open1on1QuickAdd()" class="px-4 py-2 rounded-full bg-lime text-forest font-bold text-xs shadow-md hover:bg-limeHover transition-all flex items-center gap-1.5">
+            <span>✨ Add Topic (Smart Clarifier)</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Left: Upcoming Meeting Card & History -->
+          <div class="space-y-6">
+            <!-- Active 1:1 Card -->
+            <div class="bg-forest text-white p-6 rounded-2xl shadow-lg space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-lime text-forest uppercase">Upcoming Sync</span>
+                <span class="text-xs text-slate-300">Bi-Weekly Cadence</span>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">Anushka Yadav & Alex Morgan</h3>
+                <p class="text-xs text-lime mt-0.5">Today • 4:30 PM - 5:00 PM</p>
+                <p class="text-[11px] text-slate-300 mt-1">Google Meet Call • Auto-Tracked</p>
+              </div>
+              <div class="pt-2">
+                <button onclick="showToast('Meeting marked as HELD in audit log!')" class="w-full py-2.5 rounded-xl bg-white text-forest font-bold text-xs hover:bg-slate-100 transition-all">
+                  ✓ Confirm Meeting Held
+                </button>
+              </div>
+            </div>
+
+            <!-- Meeting Cadence History -->
+            <div class="bg-white p-5 rounded-2xl border border-borderSubtle shadow-sm space-y-3">
+              <h4 class="text-xs font-bold text-forest uppercase pb-2 border-b border-borderSubtle">Cadence History (Last 60 Days)</h4>
+              <div class="space-y-2 text-xs">
+                <div class="flex items-center justify-between p-2 rounded-lg bg-mintBg border border-borderSubtle">
+                  <span>Aug 12, 2026</span>
+                  <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Held (30m)</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-lg bg-mintBg border border-borderSubtle">
+                  <span>July 29, 2026</span>
+                  <span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Held (25m)</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-lg bg-mintBg border border-borderSubtle">
+                  <span>July 15, 2026</span>
+                  <span class="text-[10px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded">Rescheduled</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Living Agenda & Carried-Over Action Items (2 Cols) -->
+          <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-6">
+            
+            <!-- Living Agenda List -->
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+                <h3 class="text-sm font-bold text-forest font-heading">Living Agenda Items for Today's Sync</h3>
+                <span class="text-xs text-slate-400">2 Topics Ready</span>
+              </div>
+
+              <div class="mt-3 space-y-2.5" id="agenda-topics-container">
+                <div class="p-3.5 rounded-xl bg-mintBg border border-borderSubtle flex items-start justify-between gap-3">
+                  <div>
+                    <span class="text-[9px] font-extrabold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">FROM PULSE SURVEY</span>
+                    <h4 class="text-xs font-bold text-forest mt-1">Cross-team database schema review bottleneck</h4>
+                    <p class="text-[11px] text-slate-600 mt-0.5">Need Alex's help unblocking review with platform leads.</p>
+                  </div>
+                  <button onclick="removeAgendaItem(this)" class="text-slate-400 hover:text-red-600 text-xs font-bold">✕</button>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-mintBg border border-borderSubtle flex items-start justify-between gap-3">
+                  <div>
+                    <span class="text-[9px] font-extrabold bg-purple-100 text-purple-800 px-2 py-0.5 rounded">MONTHLY GOAL CHECK</span>
+                    <h4 class="text-xs font-bold text-forest mt-1">Review Q3 API Gateway target metric milestone</h4>
+                    <p class="text-[11px] text-slate-600 mt-0.5">Currently at 80% completion with 3 weeks remaining.</p>
+                  </div>
+                  <button onclick="removeAgendaItem(this)" class="text-slate-400 hover:text-red-600 text-xs font-bold">✕</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Carried-Over Action Items Engine -->
+            <div class="pt-4 border-t border-borderSubtle">
+              <h3 class="text-sm font-bold text-forest font-heading mb-3">Committed Action Items (Carried Over)</h3>
+              <div class="space-y-2 text-xs" id="oneonone-action-list">
+                <div class="flex items-center justify-between p-3 bg-white border border-borderSubtle rounded-xl">
+                  <div class="flex items-center gap-2.5">
+                    <input type="checkbox" checked class="accent-forest w-4 h-4 rounded">
+                    <span class="line-through text-slate-400">Schedule Cloud Security IAM workshop with tech team</span>
+                  </div>
+                  <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Completed</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 bg-white border border-borderSubtle rounded-xl">
+                  <div class="flex items-center gap-2.5">
+                    <input type="checkbox" class="accent-forest w-4 h-4 rounded">
+                    <span class="font-medium text-slate-800">Draft fallback error recovery flowchart for gateway</span>
+                  </div>
+                  <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Due Aug 28</span>
+                </div>
+              </div>
+
+              <!-- Quick Task Input -->
+              <div class="mt-4 flex gap-2">
+                <input id="input-new-1on1-task" type="text" placeholder="Add new agreed action item..." class="flex-1 bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-forest">
+                <button onclick="add1on1Task()" class="px-4 py-2 rounded-xl bg-forest text-white font-bold text-xs hover:bg-forestDark">Add Task</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- 5. PULSE SURVEY MODULE (Conversational 30-Sec In-Chat Experience)     -->
+      <!-- ===================================================================== -->
+      <section id="page-pulse" class="hidden space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-extrabold text-forest font-heading">Conversational Pulse Check</h1>
+            <p class="text-xs text-slate-500 mt-0.5">30-second conversational pulse. Micro-questions completed directly with 1-tap responses.</p>
+          </div>
+
+          <!-- Switch to Admin View -->
+          <button onclick="togglePulseAdminView()" id="btn-pulse-toggle-admin" class="px-3.5 py-1.5 rounded-full border border-forest text-forest hover:bg-forest hover:text-white font-bold text-xs transition-all">
+            📊 Switch to Admin & Analytics View
+          </button>
+        </div>
+
+        <!-- CONVERSATIONAL PULSE SURVEY CARD (Active View) -->
+        <div id="pulse-employee-flow" class="max-w-xl mx-auto bg-white p-7 rounded-3xl border border-borderSubtle shadow-xl space-y-6">
+          
+          <!-- Progress Bar & Category -->
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-400 mb-2">
+              <span id="pulse-step-label">Question 1 of 3</span>
+              <span id="pulse-timer-label" class="text-forest font-bold">⏱️ ~20s left</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+              <div id="pulse-progress-bar" class="bg-lime h-full w-1/3 rounded-full transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- Dynamic Conversational Question Display -->
+          <div class="p-6 rounded-2xl bg-mintBg border border-borderSubtle space-y-4">
+            <span id="pulse-q-category" class="text-[10px] font-extrabold text-forest uppercase tracking-widest bg-lime/40 px-2.5 py-1 rounded-full">
+              VELOCITY & WORKLOAD
+            </span>
+            
+            <h2 id="pulse-q-text" class="text-lg font-bold text-forest leading-snug font-heading">
+              "Are technical dependencies or code review delays slowing down your current sprint deliverables?"
+            </h2>
+
+            <!-- Embedded AI Question Translator -->
+            <div class="pt-2 border-t border-borderSubtle">
+              <button onclick="togglePulseAIHelper()" class="flex items-center gap-1.5 text-xs font-bold text-forest hover:text-forestLight">
+                <span>✨</span>
+                <span>Unsure what this means? Ask AI to explain for your role</span>
+              </button>
+
+              <div id="pulse-ai-box" class="hidden mt-2 p-3 bg-white border border-borderSubtle rounded-xl text-xs text-slate-700 leading-relaxed">
+                <span class="font-bold text-forest">🤖 In Plain Words:</span>
+                <p id="pulse-ai-text" class="mt-0.5">"Is someone else's code or pending review stopping you from finishing your sprint tasks?"</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1-Tap Emoji / Numeric Scale -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-slate-600">Tap your response to auto-advance:</label>
+            <div class="grid grid-cols-5 gap-2">
+              <button onclick="answerPulseQuestion(1)" class="pulse-opt-btn p-3 rounded-2xl border border-borderSubtle bg-white hover:bg-mintBg hover:border-forest transition-all flex flex-col items-center">
+                <span class="text-2xl">🛑</span>
+                <span class="text-[10px] font-bold text-slate-700 mt-1">Blocked</span>
+              </button>
+              <button onclick="answerPulseQuestion(2)" class="pulse-opt-btn p-3 rounded-2xl border border-borderSubtle bg-white hover:bg-mintBg hover:border-forest transition-all flex flex-col items-center">
+                <span class="text-2xl">⚠️</span>
+                <span class="text-[10px] font-bold text-slate-700 mt-1">Slow</span>
+              </button>
+              <button onclick="answerPulseQuestion(3)" class="pulse-opt-btn p-3 rounded-2xl border border-borderSubtle bg-white hover:bg-mintBg hover:border-forest transition-all flex flex-col items-center">
+                <span class="text-2xl">😐</span>
+                <span class="text-[10px] font-bold text-slate-700 mt-1">Neutral</span>
+              </button>
+              <button onclick="answerPulseQuestion(4)" class="pulse-opt-btn p-3 rounded-2xl border border-borderSubtle bg-white hover:bg-mintBg hover:border-forest transition-all flex flex-col items-center">
+                <span class="text-2xl">👍</span>
+                <span class="text-[10px] font-bold text-slate-700 mt-1">Good</span>
+              </button>
+              <button onclick="answerPulseQuestion(5)" class="pulse-opt-btn p-3 rounded-2xl border border-borderSubtle bg-white hover:bg-mintBg hover:border-forest transition-all flex flex-col items-center">
+                <span class="text-2xl">🚀</span>
+                <span class="text-[10px] font-bold text-slate-700 mt-1">Smooth</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Success Completion State (Hidden by default) -->
+          <div id="pulse-completion-card" class="hidden text-center py-6 space-y-3">
+            <div class="w-14 h-14 rounded-full bg-lime text-forest text-2xl font-black flex items-center justify-center mx-auto shadow-md">
+              ✓
+            </div>
+            <h3 class="text-base font-extrabold text-forest font-heading">Pulse Check Complete in 22 Seconds!</h3>
+            <p class="text-xs text-slate-500 max-w-sm mx-auto">
+              Your responses are pseudorandomly hashed for privacy. 1 detected blocker has been synced to your 1:1 agenda.
+            </p>
+            <button onclick="resetPulseFlow()" class="mt-3 text-xs font-bold text-forest underline">Restart demo pulse</button>
+          </div>
+
+        </div>
+
+        <!-- PULSE ADMIN & ANALYTICS VIEW (Hidden by Default) -->
+        <div id="pulse-admin-flow" class="hidden space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-6">
+            
+            <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+              <h3 class="text-sm font-bold text-forest font-heading">Pulse Survey Administration & Cadence</h3>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-slate-500">Cadence:</span>
+                <select class="bg-mintBg border border-borderSubtle rounded-lg px-2.5 py-1 text-xs font-bold text-forest">
+                  <option>Bi-Weekly (Recommended)</option>
+                  <option>Monthly</option>
+                  <option>Quarterly</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Team-Level Pseudonymous Trend Chart -->
+            <div class="space-y-3">
+              <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide">Team Health Trend (Minimum Threshold: 5 Respondents)</h4>
+              
+              <div class="space-y-3 text-xs">
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>Platform Engineering (14 Respondents)</span>
+                    <span class="text-emerald-700">4.7 / 5.0 (High Velocity)</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div class="bg-emerald-500 h-full w-[94%]"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>DevOps & Infrastructure (8 Respondents)</span>
+                    <span class="text-forest">4.2 / 5.0 (Normal)</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div class="bg-forest h-full w-[84%]"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>Frontend UI Team (6 Respondents)</span>
+                    <span class="text-amber-600">3.4 / 5.0 (Code Review Latency Flag)</span>
+                  </div>
+                  <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div class="bg-amber-500 h-full w-[68%]"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- 6. CONTINUOUS FEEDBACK MODULE (Chat Agent & Timeline)                 -->
+      <!-- ===================================================================== -->
+      <section id="page-feedback" class="hidden space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-xl font-extrabold text-forest font-heading">Continuous Feedback & Kudos</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Conversational feedback agent with instant qualification and permanent Talent Profile sync.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Left: Conversational Feedback Messenger Agent -->
+          <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm flex flex-col justify-between h-[520px]">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-forest text-lime font-black flex items-center justify-center text-xs">
+                    D
+                  </div>
+                  <h3 class="text-xs font-bold text-forest">Feedback Capture Agent</h3>
+                </div>
+                <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">● Active</span>
+              </div>
+
+              <!-- Message History Screen -->
+              <div class="mt-4 space-y-3 overflow-y-auto max-h-[340px] pr-1" id="chat-feedback-history">
+                
+                <!-- Bot Intro Message -->
+                <div class="flex items-start gap-2.5">
+                  <div class="w-6 h-6 rounded-full bg-forest text-lime text-[10px] font-bold flex items-center justify-center shrink-0">
+                    D
+                  </div>
+                  <div class="bg-mintBg border border-borderSubtle p-3 rounded-2xl rounded-tl-none text-xs text-slate-700 max-w-sm">
+                    Who would you like to recognize or give feedback to today? Type in plain words (e.g. <em>"Rahul did a great job debugging the payment issue"</em>).
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- In-Chat User Input Box -->
+            <div class="pt-3 border-t border-borderSubtle">
+              <div class="flex gap-2">
+                <input id="input-feedback-chat" type="text" placeholder="Type feedback in plain words..." onkeydown="handleFeedbackKey(event)" class="flex-1 bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-forest">
+                <button onclick="sendFeedbackChat()" class="px-4 py-2.5 rounded-xl bg-forest text-white hover:bg-forestDark font-bold text-xs shadow-md shrink-0">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Chronological Feedback Timeline -->
+          <div class="bg-white p-6 rounded-2xl border border-borderSubtle shadow-sm space-y-4 flex flex-col h-[520px]">
+            <div class="flex items-center justify-between pb-3 border-b border-borderSubtle shrink-0">
+              <h3 class="text-sm font-bold text-forest font-heading">Feedback Timeline: Anushka Yadav</h3>
+              <span class="text-xs text-slate-400">Chronological Record</span>
+            </div>
+
+            <!-- Scrollable Timeline Items -->
+            <div class="space-y-3 overflow-y-auto flex-1 pr-1 custom-scrollbar" id="feedback-timeline-container">
+              
+              <!-- Timeline Item 1 -->
+              <div class="p-3.5 rounded-xl bg-mintBg border border-borderSubtle space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-forest">Alex Morgan (Manager)</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">Positive / Win</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  "Outstanding ownership on diagnosing the staging auth latency. Kept the release exactly on schedule."
+                </p>
+                <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+                  <span>Sprint #42 Retro • Verified</span>
+                  <span>Aug 24, 2026</span>
+                </div>
+              </div>
+
+              <!-- Timeline Item 2 -->
+              <div class="p-3.5 rounded-xl bg-mintBg border border-borderSubtle space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-forest">Nilesh Sharma (Peer)</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 uppercase">Collaboration</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  "Clear and concise API documentation provided before starting the gateway integration tests."
+                </p>
+                <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+                  <span>Jira Project Completion</span>
+                  <span>Aug 19, 2026</span>
+                </div>
+              </div>
+
+              <!-- Timeline Item 3 (Developmental) -->
+              <div class="p-3.5 rounded-xl bg-mintBg border border-borderSubtle space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-forest">Alex Morgan (Manager)</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 uppercase">Developmental</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  "Recommend taking lead on cross-departmental alignment syncs earlier in the sprint to avoid review bottlenecks."
+                </p>
+                <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+                  <span>1:1 Coaching Sync</span>
+                  <span>Aug 05, 2026</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ADD NEW GOAL                                                       -->
+  <!-- ========================================================================= -->
+  <div id="modal-add-goal" class="hidden fixed inset-0 bg-forestDark/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-borderSubtle space-y-4 animate-pop">
+      <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+        <h3 class="text-base font-extrabold text-forest font-heading">Draft New Goal</h3>
+        <button onclick="toggleModal('modal-add-goal')" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Goal Title</label>
+          <input id="input-goal-title" type="text" placeholder="e.g. Implement Real-Time Event Bus" class="w-full bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 focus:outline-none focus:border-forest text-xs">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Description</label>
+          <textarea id="input-goal-desc" rows="2" placeholder="Specific deliverables and context..." class="w-full bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 focus:outline-none focus:border-forest text-xs"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Target Metric</label>
+            <input id="input-goal-metric" type="text" placeholder="e.g. Sub-10ms delivery" class="w-full bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 focus:outline-none focus:border-forest text-xs">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Target Due Date</label>
+            <input id="input-goal-date" type="date" value="2026-09-30" class="w-full bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 focus:outline-none focus:border-forest text-xs">
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-borderSubtle flex justify-end gap-2">
+        <button onclick="toggleModal('modal-add-goal')" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Cancel</button>
+        <button onclick="saveNewGoal()" class="px-5 py-2 rounded-xl bg-forest text-white text-xs font-bold hover:bg-forestDark">Submit Goal for Approval</button>
+      </div>
     </div>
   </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: UPDATE SKILLS SELF-SERVICE                                         -->
+  <!-- ========================================================================= -->
+  <div id="modal-update-skills" class="hidden fixed inset-0 bg-forestDark/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-borderSubtle space-y-4 animate-pop">
+      <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+        <h3 class="text-base font-extrabold text-forest font-heading">Update Skill Profile</h3>
+        <button onclick="toggleModal('modal-update-skills')" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">New Skill / Tool Name</label>
+          <input id="input-skill-name" type="text" placeholder="e.g. GraphQL, AWS KMS, Kafka" class="w-full bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 focus:outline-none focus:border-forest text-xs">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Self-Rating (1-5)</label>
+          <select id="input-skill-level" class="w-full bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 focus:outline-none focus:border-forest text-xs font-semibold">
+            <option>Level 5 - Expert / Architect</option>
+            <option selected>Level 4 - Proficient Practitioner</option>
+            <option>Level 3 - Intermediate</option>
+            <option>Level 2 - Beginner</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-borderSubtle flex justify-end gap-2">
+        <button onclick="toggleModal('modal-update-skills')" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Cancel</button>
+        <button onclick="saveSkillUpdate()" class="px-5 py-2 rounded-xl bg-forest text-white text-xs font-bold hover:bg-forestDark">Save to Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: 1:1 TOPIC SMART CLARIFIER CHAT WIDGET                              -->
+  <!-- ========================================================================= -->
+  <div id="modal-topic-agent" class="hidden fixed inset-0 bg-forestDark/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-borderSubtle space-y-4 animate-pop">
+      <div class="flex items-center justify-between pb-3 border-b border-borderSubtle">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-lg bg-lime text-forest font-black flex items-center justify-center text-xs font-heading">
+            D
+          </div>
+          <h3 class="text-xs font-bold text-forest">1:1 Smart Topic Clarifier</h3>
+        </div>
+        <button onclick="toggleModal('modal-topic-agent')" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3" id="topic-agent-chat-body">
+        <div class="p-3 bg-mintBg rounded-2xl rounded-tl-none border border-borderSubtle text-xs text-slate-700">
+          What topic would you like to add to your 1:1 with Alex? (e.g. <em>"Discuss sprint workload"</em>)
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-borderSubtle flex gap-2">
+        <input id="input-topic-raw" type="text" placeholder="Type topic..." onkeydown="handleTopicKey(event)" class="flex-1 bg-mintBg border border-borderSubtle rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-forest">
+        <button onclick="processTopicClarifier()" id="btn-topic-action" class="px-4 py-2 rounded-xl bg-forest text-white font-bold text-xs hover:bg-forestDark">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-forest text-white px-5 py-3 rounded-2xl shadow-2xl border border-lime/40 text-xs font-bold flex items-center gap-2 z-50 animate-pop">
+    <span class="text-lime text-base">✓</span>
+    <span id="toast-text">Action completed successfully!</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION SCRIPTS & STATE LOGIC                                         -->
+  <!-- ========================================================================= -->
+  <script>
+    // Navigation Routing Engine
+    function navigate(screenId) {
+      const screens = ['dashboard', 'goals', 'skills', 'oneonone', 'pulse', 'feedback'];
+      screens.forEach(s => {
+        document.getElementById(`page-${s}`).classList.add('hidden');
+        const navBtn = document.getElementById(`nav-${s}`);
+        if (navBtn) {
+          navBtn.classList.remove('bg-lime', 'text-forest', 'font-bold');
+          navBtn.classList.add('text-slate-300', 'font-semibold');
+        }
+      });
+
+      document.getElementById(`page-${screenId}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${screenId}`);
+      if (activeNav) {
+        activeNav.classList.add('bg-lime', 'text-forest', 'font-bold');
+        activeNav.classList.remove('text-slate-300', 'font-semibold');
+      }
+
+      // Update Top Header Titles
+      const titleMap = {
+        dashboard: { section: 'WORKSPACE', title: 'Executive Dashboard' },
+        goals: { section: 'MODULE 01', title: 'Goal Setting & Alignment' },
+        skills: { section: 'MODULE 02', title: 'Skills & Talent Intelligence' },
+        oneonone: { section: 'MODULE 03', title: '1:1 Management & Agendas' },
+        pulse: { section: 'MODULE 04', title: 'Conversational Pulse Survey' },
+        feedback: { section: 'MODULE 05', title: 'Continuous Feedback Agent' }
+      };
+      document.getElementById('breadcrumb-section').innerText = titleMap[screenId].section;
+      document.getElementById('header-title').innerText = titleMap[screenId].title;
+    }
+
+    // Modal Utilities
+    function toggleModal(modalId) {
+      document.getElementById(modalId).classList.toggle('hidden');
+    }
+
+    // Toast Notification Utility
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2500);
+    }
+
+    // -------------------------------------------------------------------------
+    // MODULE 1: GOALS LOGIC
+    // -------------------------------------------------------------------------
+    function switchGoalTab(tab) {
+      ['my-goals', 'manager-approvals', 'rollup'].forEach(t => {
+        document.getElementById(`goal-tab-${t}`).classList.add('hidden');
+      });
+      document.getElementById(`goal-tab-${tab}`).classList.remove('hidden');
+
+      ['mygoals', 'mgrgoals', 'rollup'].forEach(t => {
+        const btn = document.getElementById(`btn-tab-${t}`);
+        btn.classList.remove('bg-forest', 'text-white');
+        btn.classList.add('text-slate-600');
+      });
+      const activeBtn = tab === 'my-goals' ? 'mygoals' : (tab === 'manager-approvals' ? 'mgrgoals' : 'rollup');
+      document.getElementById(`btn-tab-${activeBtn}`).classList.add('bg-forest', 'text-white');
+    }
+
+    function updateGoalSliderVal(val, targetId) {
+      document.getElementById(targetId).innerText = `${val}%`;
+    }
+
+    function saveNewGoal() {
+      const title = document.getElementById('input-goal-title').value.trim();
+      if (!title) { alert('Please enter a goal title.'); return; }
+      toggleModal('modal-add-goal');
+      showToast('Goal submitted to Manager for approval workflow!');
+      document.getElementById('input-goal-title').value = '';
+      document.getElementById('input-goal-desc').value = '';
+    }
+
+    function approveGoal(btn) {
+      btn.closest('.bg-white').innerHTML = `
+        <div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl text-xs font-bold flex items-center gap-2">
+          <span>✓ Goal approved and logged to official active cycle!</span>
+        </div>
+      `;
+      showToast('Goal approved successfully!');
+    }
+
+    function rejectGoal(btn) {
+      btn.closest('.bg-white').remove();
+      showToast('Goal rejected.');
+    }
+
+    function requestChangeGoal(btn) {
+      alert('Feedback prompt sent to employee via Slack notification.');
+    }
+
+    // -------------------------------------------------------------------------
+    // MODULE 2: SKILLS LOGIC
+    // -------------------------------------------------------------------------
+    function saveSkillUpdate() {
+      const name = document.getElementById('input-skill-name').value.trim();
+      if (!name) return;
+      toggleModal('modal-update-skills');
+      showToast(`Skill '${name}' added to Talent Profile!`);
+      document.getElementById('input-skill-name').value = '';
+    }
+
+    // -------------------------------------------------------------------------
+    // MODULE 3: ONE-ON-ONE LOGIC & CLARIFYING AGENT
+    // -------------------------------------------------------------------------
+    let topicClarifierStep = 1;
+    let savedRawTopic = '';
+
+    function open1on1QuickAdd() {
+      topicClarifierStep = 1;
+      savedRawTopic = '';
+      document.getElementById('topic-agent-chat-body').innerHTML = `
+        <div class="p-3 bg-mintBg rounded-2xl rounded-tl-none border border-borderSubtle text-xs text-slate-700">
+          What topic would you like to add to your 1:1 with Alex? (e.g. <em>"Discuss sprint workload"</em>)
+        </div>
+      `;
+      document.getElementById('input-topic-raw').value = '';
+      document.getElementById('btn-topic-action').innerText = 'Next';
+      toggleModal('modal-topic-agent');
+    }
+
+    function handleTopicKey(e) {
+      if (e.key === 'Enter') processTopicClarifier();
+    }
+
+    function processTopicClarifier() {
+      const input = document.getElementById('input-topic-raw');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const chatBody = document.getElementById('topic-agent-chat-body');
+
+      if (topicClarifierStep === 1) {
+        savedRawTopic = val;
+        // User bubble
+        chatBody.innerHTML += `
+          <div class="flex justify-end">
+            <div class="bg-forest text-white p-2.5 rounded-2xl rounded-tr-none text-xs max-w-[80%]">${val}</div>
+          </div>
+        `;
+        // Agent clarifying question
+        setTimeout(() => {
+          chatBody.innerHTML += `
+            <div class="p-3 bg-mintBg rounded-2xl rounded-tl-none border border-borderSubtle text-xs text-slate-700">
+              Got it. Anything specific driving this (e.g., a specific project or dependency) so Alex has full context?
+            </div>
+          `;
+          input.value = '';
+          input.placeholder = "Add quick context or type 'No' to save...";
+          document.getElementById('btn-topic-action').innerText = 'Save Topic';
+          topicClarifierStep = 2;
+        }, 300);
+
+      } else if (topicClarifierStep === 2) {
+        // Save topic to 1:1 agenda
+        toggleModal('modal-topic-agent');
+        const container = document.getElementById('agenda-topics-container');
+        const newTopic = document.createElement('div');
+        newTopic.className = "p-3.5 rounded-xl bg-mintBg border border-borderSubtle flex items-start justify-between gap-3 animate-pop";
+        newTopic.innerHTML = `
+          <div>
+            <span class="text-[9px] font-extrabold bg-lime text-forest px-2 py-0.5 rounded">NEW 1:1 TOPIC</span>
+            <h4 class="text-xs font-bold text-forest mt-1">${savedRawTopic}</h4>
+            <p class="text-[11px] text-slate-600 mt-0.5">${val.toLowerCase() === 'no' ? 'Direct discussion item.' : val}</p>
+          </div>
+          <button onclick="removeAgendaItem(this)" class="text-slate-400 hover:text-red-600 text-xs font-bold">✕</button>
+        `;
+        container.prepend(newTopic);
+        showToast('Topic with context added to living 1:1 agenda!');
+      }
+    }
+
+    function removeAgendaItem(btn) {
+      btn.closest('.p-3\\.5').remove();
+      showToast('Agenda item cleared.');
+    }
+
+    function add1on1Task() {
+      const input = document.getElementById('input-new-1on1-task');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const list = document.getElementById('oneonone-action-list');
+      const div = document.createElement('div');
+      div.className = "flex items-center justify-between p-3 bg-white border border-borderSubtle rounded-xl text-xs animate-pop";
+      div.innerHTML = `
+        <div class="flex items-center gap-2.5">
+          <input type="checkbox" class="accent-forest w-4 h-4 rounded">
+          <span class="font-medium text-slate-800">${val}</span>
+        </div>
+        <span class="text-[10px] font-bold text-forest bg-lime/40 px-2 py-0.5 rounded">New Action</span>
+      `;
+      list.prepend(div);
+      input.value = '';
+      showToast('Action item committed to follow-through loop!');
+    }
+
+    // -------------------------------------------------------------------------
+    // MODULE 4: PULSE SURVEY LOGIC
+    // -------------------------------------------------------------------------
+    const pulseQuestionsDB = [
+      {
+        cat: "VELOCITY & WORKLOAD",
+        q: "Are technical dependencies or code review delays slowing down your current sprint deliverables?",
+        ai: "Is someone else's code or pending review stopping you from finishing your sprint tasks?"
+      },
+      {
+        cat: "REQUIREMENTS CLARITY",
+        q: "Did you receive complete architectural requirements before starting your current sprint backlog?",
+        ai: "Did your lead clearly specify what to build before you wrote code?"
+      },
+      {
+        cat: "TEAM EMPOWERMENT",
+        q: "Do you have sufficient autonomy to execute decisions without waiting for manual approvals?",
+        ai: "Are you free to do your best work without being micromanaged?"
+      }
+    ];
+
+    let pulseQIndex = 0;
+
+    function renderPulseQuestion() {
+      const data = pulseQuestionsDB[pulseQIndex];
+      document.getElementById('pulse-q-category').innerText = data.cat;
+      document.getElementById('pulse-q-text').innerText = `"${data.q}"`;
+      document.getElementById('pulse-ai-text').innerText = `"${data.ai}"`;
+      document.getElementById('pulse-step-label').innerText = `Question ${pulseQIndex + 1} of ${pulseQuestionsDB.length}`;
+      document.getElementById('pulse-progress-bar').style.width = `${((pulseQIndex + 1) / pulseQuestionsDB.length) * 100}%`;
+      document.getElementById('pulse-ai-box').classList.add('hidden');
+    }
+
+    function togglePulseAIHelper() {
+      document.getElementById('pulse-ai-box').classList.toggle('hidden');
+    }
+
+    function answerPulseQuestion(ratingVal) {
+      if (pulseQIndex < pulseQuestionsDB.length - 1) {
+        pulseQIndex++;
+        renderPulseQuestion();
+      } else {
+        // Complete
+        document.getElementById('pulse-q-category').parentElement.classList.add('hidden');
+        document.querySelector('.pulse-opt-btn').parentElement.parentElement.classList.add('hidden');
+        document.getElementById('pulse-completion-card').classList.remove('hidden');
+        showToast('Pulse check recorded in 22 seconds!');
+      }
+    }
+
+    function resetPulseFlow() {
+      pulseQIndex = 0;
+      document.getElementById('pulse-q-category').parentElement.classList.remove('hidden');
+      document.querySelector('.pulse-opt-btn').parentElement.parentElement.classList.remove('hidden');
+      document.getElementById('pulse-completion-card').classList.add('hidden');
+      renderPulseQuestion();
+    }
+
+    function togglePulseAdminView() {
+      const emp = document.getElementById('pulse-employee-flow');
+      const admin = document.getElementById('pulse-admin-flow');
+      const btn = document.getElementById('btn-pulse-toggle-admin');
+
+      if (admin.classList.contains('hidden')) {
+        admin.classList.remove('hidden');
+        emp.classList.add('hidden');
+        btn.innerText = "← Switch to Employee In-Chat Survey";
+      } else {
+        admin.classList.add('hidden');
+        emp.classList.remove('hidden');
+        btn.innerText = "📊 Switch to Admin & Analytics View";
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // MODULE 5: CONTINUOUS FEEDBACK CONVERSATIONAL AGENT
+    // -------------------------------------------------------------------------
+    let feedbackAgentStep = 1;
+    let feedbackAuthorText = '';
+
+    function handleFeedbackKey(e) {
+      if (e.key === 'Enter') sendFeedbackChat();
+    }
+
+    function sendFeedbackChat() {
+      const input = document.getElementById('input-feedback-chat');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const history = document.getElementById('chat-feedback-history');
+
+      if (feedbackAgentStep === 1) {
+        feedbackAuthorText = val;
+        // User Msg
+        history.innerHTML += `
+          <div class="flex justify-end">
+            <div class="bg-forest text-white p-3 rounded-2xl rounded-tr-none text-xs max-w-sm">${val}</div>
+          </div>
+        `;
+        input.value = '';
+
+        // Bot Clarifying prompt
+        setTimeout(() => {
+          history.innerHTML += `
+            <div class="flex items-start gap-2.5">
+              <div class="w-6 h-6 rounded-full bg-forest text-lime text-[10px] font-bold flex items-center justify-center shrink-0">D</div>
+              <div class="bg-mintBg border border-borderSubtle p-3 rounded-2xl rounded-tl-none text-xs text-slate-700 max-w-sm">
+                Great recognize note! Want to tag which project or moment this was tied to (e.g. <em>"Sprint 42 Release"</em>), or confirm as-is?
+              </div>
+            </div>
+          `;
+          history.scrollTop = history.scrollHeight;
+          feedbackAgentStep = 2;
+        }, 300);
+
+      } else if (feedbackAgentStep === 2) {
+        // User Context
+        history.innerHTML += `
+          <div class="flex justify-end">
+            <div class="bg-forest text-white p-3 rounded-2xl rounded-tr-none text-xs max-w-sm">${val}</div>
+          </div>
+        `;
+        input.value = '';
+
+        // Confirmation & Timeline Ingest
+        setTimeout(() => {
+          history.innerHTML += `
+            <div class="flex items-start gap-2.5">
+              <div class="w-6 h-6 rounded-full bg-forest text-lime text-[10px] font-bold flex items-center justify-center shrink-0">D</div>
+              <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl rounded-tl-none text-xs text-emerald-900 font-semibold max-w-sm">
+                ✓ Logged to permanent Talent Profile as Positive Recognition!
+              </div>
+            </div>
+          `;
+          history.scrollTop = history.scrollHeight;
+
+          // Add to Timeline
+          const timeline = document.getElementById('feedback-timeline-container');
+          const item = document.createElement('div');
+          item.className = "p-3.5 rounded-xl bg-mintBg border border-borderSubtle space-y-2 animate-pop";
+          item.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-forest">Anushka Yadav (Peer)</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase">Positive Recognition</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">"${feedbackAuthorText}"</p>
+            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+              <span>${val}</span>
+              <span>Just now</span>
+            </div>
+          `;
+          timeline.prepend(item);
+          showToast('Feedback verified & synced to Talent Profile!');
+          feedbackAgentStep = 1;
+        }, 300);
+      }
+    }
+
+    // Initial Setup
+    renderPulseQuestion();
+  </script>
+  <!-- Switcher Bar -->
+<div class="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-slate-900/90 backdrop-blur border border-slate-700 px-3 py-2 rounded-full shadow-lg text-xs">
+  <span class="text-slate-400">Viewing: <strong class="text-white">Prototype 1</strong></span>
+  <a href="./daiko_hr_unified_prototype.html" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-full font-medium transition">Switch to Prototype 2 &rarr;</a>
+</div>
 </body>
 </html>
