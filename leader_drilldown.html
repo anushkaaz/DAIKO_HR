@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DAIKO — Leader Progression & KPI Drilldown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            daikoNavy: '#0F092A',
+            daikoPurple: '#1D1254',
+            daikoAccent: '#5C33CF',
+            daikoBg: '#F8F9FD',
+            daikoBorder: '#E5E7F2',
+            daikoGreen: '#0E9355',
+            daikoAmber: '#B54708',
+            daikoRed: '#D92D20',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8F9FD; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #D5D8E4; border-radius: 9999px; }
+    @keyframes smoothSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-slide { animation: smoothSlide 0.22s ease-out forwards; }
+  </style>
+</head>
+<body class="text-slate-800 flex h-screen overflow-hidden select-none bg-[#F8F9FD]">
+
+  <!-- ========================================================================= -->
+  <!-- 1. LEFT SIDEBAR (DAIKO PROCESS SUITE)                                     -->
+  <!-- ========================================================================= -->
+  <aside class="w-56 bg-daikoNavy text-white flex flex-col justify-between shrink-0 z-30 shadow-2xl">
+    <div>
+      <div class="px-5 py-5 border-b border-white/10 flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-daikoAccent flex items-center justify-center font-extrabold text-white text-base">
+          D
+        </div>
+        <div>
+          <span class="text-base font-extrabold tracking-tight block">DAIKO</span>
+          <span class="text-[9px] font-bold text-purple-300 uppercase tracking-widest block">Process Suite</span>
+        </div>
+      </div>
+
+      <div class="p-3 space-y-1 mt-2">
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1 block">Installed Micro-Apps</span>
+        
+        <div class="opacity-40 hover:opacity-80 transition-all cursor-pointer">
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-200">
+            <span>🏢</span> <span>Visitor Ops</span>
+          </div>
+        </div>
+
+        <div class="opacity-40 hover:opacity-80 transition-all cursor-pointer">
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-200">
+            <span>🔧</span> <span>Facility R&M</span>
+          </div>
+        </div>
+
+        <div class="opacity-40 hover:opacity-80 transition-all cursor-pointer">
+          <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-200">
+            <span>📅</span> <span>Leave & Attendance</span>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <div class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold bg-daikoAccent text-white shadow-md">
+            <span>🌱</span>
+            <div class="flex-1">
+              <span class="block">Journey</span>
+              <span class="text-[9px] text-purple-200 font-normal">Leader Drilldown</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leader Profile Context -->
+    <div class="p-3 border-t border-white/10 bg-black/20">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-daikoAccent font-bold text-xs flex items-center justify-center text-white">
+          VP
+        </div>
+        <div class="overflow-hidden">
+          <span class="block text-xs font-bold text-white truncate">Vikramaditya</span>
+          <span class="block text-[10px] text-purple-300 truncate">VP & Leadership Board</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN 1-PAGE PROGRESSIVE DRILLDOWN WORKSPACE                           -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    
+    <!-- Top Global Bar -->
+    <header class="h-16 bg-white border-b border-daikoBorder px-8 flex items-center justify-between shrink-0 z-20">
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">LEADER BOARD</span>
+        <span class="text-slate-300">/</span>
+        <h2 class="text-sm font-extrabold text-daikoNavy">Department KPI, Root-Cause & Promotion Calibration</h2>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>Leader Audit: Live Active</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Scrollable Canvas -->
+    <main class="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar space-y-6">
+      <div class="max-w-6xl mx-auto space-y-6">
+
+        <!-- =================================================================== -->
+        <!-- SECTION 1: TOP EXECUTIVE SUMMARY CARDS (LEVEL 1)                   -->
+        <!-- =================================================================== -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <div class="bg-white p-5 rounded-2xl border border-daikoBorder shadow-sm space-y-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">ORG VELOCITY INDEX</span>
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-black text-daikoNavy">8.8 / 10</span>
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">High Output</span>
+            </div>
+            <p class="text-xs text-slate-500">Cross-department KPI completion rate: 89.4%</p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-daikoBorder shadow-sm space-y-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">PROMOTION BUDGET BALANCE</span>
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-black text-daikoNavy">4 of 6</span>
+              <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Allocated</span>
+            </div>
+            <p class="text-xs text-slate-500">2 promotion budget slots available this cycle.</p>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-daikoBorder shadow-sm space-y-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">CRITICAL AUDIT FLAGS</span>
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-black text-amber-700">1 Flag</span>
+              <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Needs Calibration</span>
+            </div>
+            <p class="text-xs text-slate-500">Sales Dept recommended 3 promos vs 2 cap ceiling.</p>
+          </div>
+
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SECTION 2: DEPARTMENT & MANAGER CARDS (CLICK TO EXPAND TEAM)        -->
+        <!-- =================================================================== -->
+        <div class="bg-white p-6 rounded-2xl border border-daikoBorder shadow-sm space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-daikoBorder">
+            <div>
+              <h3 class="text-xs font-extrabold text-daikoNavy uppercase tracking-wide">1. Select Department Manager to Inspect Team</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Click any manager card below to immediately expand their team KPIs and root causes right on this screen.</p>
+            </div>
+            <span class="text-xs text-slate-400 font-semibold">1-Click Progressive Drilldown</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            
+            <!-- Manager 1: Harshad Agashe (Sales & Growth) -->
+            <div onclick="drillDownManager('harshad')" id="card-mgr-harshad" class="mgr-card p-4 rounded-2xl border-2 border-daikoAccent bg-purple-50/20 shadow-sm cursor-pointer hover:shadow-md transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-daikoNavy">Harshad Agashe</span>
+                <span class="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded">Selected</span>
+              </div>
+              <span class="text-xs text-slate-500 block">Lead &bull; Commercial Sales & Growth</span>
+              <div class="pt-2 border-t border-daikoBorder flex justify-between text-xs font-bold">
+                <span class="text-slate-600">Team Target KPI:</span>
+                <span class="text-emerald-700">90% Achieved</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-500">
+                <span>Promotions Rec: 2 of 2</span>
+                <span class="text-emerald-700 font-bold">Within Quota</span>
+              </div>
+            </div>
+
+            <!-- Manager 2: Nilesh Hiray (Tech & Platform) -->
+            <div onclick="drillDownManager('nilesh')" id="card-mgr-nilesh" class="mgr-card p-4 rounded-2xl border border-daikoBorder bg-white shadow-sm cursor-pointer hover:border-daikoAccent hover:shadow-md transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-daikoNavy">Nilesh Hiray</span>
+                <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Over Quota (+1)</span>
+              </div>
+              <span class="text-xs text-slate-500 block">Lead &bull; Platform Engineering</span>
+              <div class="pt-2 border-t border-daikoBorder flex justify-between text-xs font-bold">
+                <span class="text-slate-600">Team Target KPI:</span>
+                <span class="text-emerald-700">85% Achieved</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-500">
+                <span>Promotions Rec: 3 of 2</span>
+                <span class="text-amber-700 font-bold">Needs Review</span>
+              </div>
+            </div>
+
+            <!-- Manager 3: Pooja Sharma (Operations) -->
+            <div onclick="drillDownManager('pooja')" id="card-mgr-pooja" class="mgr-card p-4 rounded-2xl border border-daikoBorder bg-white shadow-sm cursor-pointer hover:border-daikoAccent hover:shadow-md transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-daikoNavy">Pooja Sharma</span>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Balanced</span>
+              </div>
+              <span class="text-xs text-slate-500 block">Lead &bull; People & Terminal Ops</span>
+              <div class="pt-2 border-t border-daikoBorder flex justify-between text-xs font-bold">
+                <span class="text-slate-600">Team Target KPI:</span>
+                <span class="text-emerald-700">92% Achieved</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-500">
+                <span>Promotions Rec: 1 of 1</span>
+                <span class="text-emerald-700 font-bold">Within Quota</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SECTION 3: EXPANDED TEAM MEMBERS GRID (CLICK MEMBER TO SEE REASON)  -->
+        <!-- =================================================================== -->
+        <div id="section-team-grid" class="bg-white p-6 rounded-2xl border border-daikoBorder shadow-sm space-y-4 animate-slide">
+          <div class="flex items-center justify-between pb-3 border-b border-daikoBorder">
+            <div>
+              <h3 class="text-xs font-extrabold text-daikoNavy uppercase tracking-wide" id="teamGridTitle">2. Harshad Agashe's Team Members — Select Person for KPI & Root-Cause</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Click an employee card to reveal why they met or missed KPIs, and their 2-Stage promotion criteria.</p>
+            </div>
+            <span class="text-xs text-daikoAccent font-bold">Click Card to Inspect Detail ↓</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="teamMemberCardsContainer">
+            
+            <!-- Member 1: Anushka Yadav (Active Focus) -->
+            <div onclick="drillDownPerson('anushka')" id="card-rep-anushka" class="rep-card p-4 rounded-2xl border-2 border-daikoAccent bg-purple-50/20 shadow-sm cursor-pointer transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-daikoNavy">Anushka Yadav</span>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Eligible (84%)</span>
+              </div>
+              <p class="text-xs text-slate-500">L2 &bull; Sales & Platform Specialist</p>
+              <div class="pt-2 border-t border-daikoBorder text-xs space-y-1">
+                <div class="flex justify-between"><span>Pipeline KPI:</span> <strong class="text-emerald-700">120 Accounts (100%)</strong></div>
+                <div class="flex justify-between"><span>L2 Mastery:</span> <strong class="text-emerald-700">100 / 100 Passed</strong></div>
+              </div>
+              <div class="text-[10px] text-daikoAccent font-bold text-right pt-1">Active Detail Below ↓</div>
+            </div>
+
+            <!-- Member 2: Nilesh Sharma -->
+            <div onclick="drillDownPerson('nilesh_rep')" id="card-rep-nilesh_rep" class="rep-card p-4 rounded-2xl border border-daikoBorder bg-white shadow-sm cursor-pointer hover:border-daikoAccent transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-daikoNavy">Nilesh Sharma</span>
+                <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Gaps (62%)</span>
+              </div>
+              <p class="text-xs text-slate-500">L2 &bull; Technical Sales Assoc.</p>
+              <div class="pt-2 border-t border-daikoBorder text-xs space-y-1">
+                <div class="flex justify-between"><span>Pipeline KPI:</span> <strong class="text-amber-700">75 Accounts (60%)</strong></div>
+                <div class="flex justify-between"><span>L2 Mastery:</span> <strong class="text-emerald-700">100 / 100 Passed</strong></div>
+              </div>
+              <div class="text-[10px] text-slate-400 font-bold text-right pt-1">Click to Inspect Details &rarr;</div>
+            </div>
+
+            <!-- Member 3: Vishal Verma -->
+            <div onclick="drillDownPerson('vishal')" id="card-rep-vishal" class="rep-card p-4 rounded-2xl border border-daikoBorder bg-white shadow-sm cursor-pointer hover:border-daikoAccent transition-all space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-daikoNavy">Vishal Verma</span>
+                <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">High (91%)</span>
+              </div>
+              <p class="text-xs text-slate-500">L3 &bull; Enterprise Account Exec.</p>
+              <div class="pt-2 border-t border-daikoBorder text-xs space-y-1">
+                <div class="flex justify-between"><span>Deal Closure KPI:</span> <strong class="text-emerald-700">$240k Target Met</strong></div>
+                <div class="flex justify-between"><span>L3 Mastery:</span> <strong class="text-emerald-700">100 / 100 Passed</strong></div>
+              </div>
+              <div class="text-[10px] text-slate-400 font-bold text-right pt-1">Click to Inspect Details &rarr;</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SECTION 4: COMPLETE PERSON KPI BREAKDOWN + WHAT & WHY (LEVEL 3)     -->
+        <!-- =================================================================== -->
+        <div id="section-person-detail" class="bg-white rounded-2xl border-2 border-daikoAccent p-6 shadow-md space-y-6 animate-slide">
+          
+          <!-- Detail Header & 2-Stage Gate Status -->
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-daikoBorder">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-daikoAccent">PERSON DEEP AUDIT</span>
+                <h3 class="text-lg font-black text-daikoNavy" id="detailPersonName">Anushka Yadav — Sales & Platform Specialist</h3>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">Assessed for Promotion: <strong>L2 Platform Specialist</strong> $\rightarrow$ <strong>L3 Senior Specialist</strong></p>
+            </div>
+
+            <!-- Two Stage Qualification Box -->
+            <div class="flex items-center gap-3 bg-purple-50/60 p-3 rounded-xl border border-purple-100">
+              <div class="text-center px-3 border-r border-purple-200">
+                <span class="block text-[10px] text-slate-500 font-bold uppercase">Stage 1 (L2 Mastery)</span>
+                <span class="text-base font-black text-emerald-700">100 / 100</span>
+                <span class="block text-[9px] text-emerald-700 font-bold">✓ 100% Mastered</span>
+              </div>
+              <div class="text-center px-3">
+                <span class="block text-[10px] text-slate-500 font-bold uppercase">Stage 2 (L3 Readiness)</span>
+                <span class="text-base font-black text-daikoAccent">74 / 100</span>
+                <span class="block text-[9px] text-emerald-700 font-bold">✓ Pass Threshold (70+)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-BLOCK A: KPI METRICS + WHAT HAPPENED & WHY (ROOT CAUSE) -->
+          <div>
+            <h4 class="text-xs font-extrabold text-daikoNavy uppercase tracking-wide mb-3">KPI Metrics & Root-Cause Explanation (What Happened & Why)</h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              
+              <!-- KPI Card 1 -->
+              <div class="p-4 rounded-xl bg-daikoBg border border-daikoBorder space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900">KPI 1: Enterprise Account Outreach & Lead Generation</span>
+                  <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">120 Accounts (100% Target)</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white border border-slate-200 space-y-1">
+                  <span class="text-[10px] font-extrabold text-slate-500 uppercase block">THE FACTOR & REASON WHY THIS HAPPENED:</span>
+                  <p class="text-slate-700"><strong>What happened:</strong> Exceeded target outreach by 20% with 28% reply rate.</p>
+                  <p class="text-slate-600"><strong>Why it happened:</strong> Built automated company-domain scrapers and customized technical rate-card comparison decks independently.</p>
+                </div>
+              </div>
+
+              <!-- KPI Card 2 -->
+              <div class="p-4 rounded-xl bg-daikoBg border border-daikoBorder space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900">KPI 2: Demo Delivery & Technical RFP Turnaround</span>
+                  <span class="font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">80% On-Time (Minor Latency)</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-white border border-slate-200 space-y-1">
+                  <span class="text-[10px] font-extrabold text-slate-500 uppercase block">THE FACTOR & REASON WHY THIS HAPPENED:</span>
+                  <p class="text-slate-700"><strong>What happened:</strong> 2 RFPs delayed by 48 hours during staging verification.</p>
+                  <p class="text-slate-600"><strong>Why it happened:</strong> Note: @Nilesh missed 2 technical syncs; Anushka had to reverse-engineer API specs manually to finish the client proposal.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SUB-BLOCK B: COMPETENCY MATRIX & GAP ANALYSIS (THE SPREADSHEET LEDGER) -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-extrabold text-daikoNavy uppercase tracking-wide">Target L3 Competency Ledger & Gap Breakdown</h4>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs border border-daikoBorder">
+                <thead>
+                  <tr class="bg-purple-50/50 text-slate-700 font-bold border-b border-daikoBorder">
+                    <th class="py-2.5 px-3 border-r border-daikoBorder w-1/3">Target Competency Criteria (L3)</th>
+                    <th class="py-2.5 px-2 border-r border-daikoBorder text-center w-32">Self-Assessment</th>
+                    <th class="py-2.5 px-2 border-r border-daikoBorder text-center w-36">Manager Evaluation</th>
+                    <th class="py-2.5 px-3">Factual Evidence Log</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-daikoBorder font-medium">
+                  <tr>
+                    <td class="py-2.5 px-3 border-r border-daikoBorder font-semibold text-slate-800">1. Product Architecture & Business Model Mastery</td>
+                    <td class="py-2.5 px-2 border-r border-daikoBorder text-center"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold">Exceeds (28 pts)</span></td>
+                    <td class="py-2.5 px-2 border-r border-daikoBorder text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (26 pts)</span></td>
+                    <td class="py-2.5 px-3 text-slate-600">Built live product demonstration flows; 100% test score on Daiko Suite.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2.5 px-3 border-r border-daikoBorder font-semibold text-slate-800">2. Proposal Preparation & Cross-Team Unblocking</td>
+                    <td class="py-2.5 px-2 border-r border-daikoBorder text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (25 pts)</span></td>
+                    <td class="py-2.5 px-2 border-r border-daikoBorder text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (25 pts)</span></td>
+                    <td class="py-2.5 px-3 text-slate-600">Unblocked QA dependency; 100% 1:1 attendance verified on Meet API.</td>
+                  </tr>
+                  <tr class="bg-amber-50/20">
+                    <td class="py-2.5 px-3 border-r border-daikoBorder font-semibold text-slate-800">3. Cloud Security Governance & IAM Auditing</td>
+                    <td class="py-2.5 px-2 border-r border-daikoBorder text-center"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">Needs Opp (10 pts)</span></td>
+                    <td class="py-2.5 px-2 border-r border-daikoBorder text-center"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">Needs Opp (10 pts)</span></td>
+                    <td class="py-2.5 px-3 text-amber-800">Gap: Manual key rotation practice. Enrolled in internal IAM cohort.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SUB-BLOCK C: LEADER DECISION STRIP -->
+          <div class="p-4 bg-purple-50/80 rounded-xl border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div>
+              <span class="font-extrabold text-daikoNavy block">VP Calibration Recommendation Status:</span>
+              <p class="text-slate-600 mt-0.5">Stage 1 passed (100/100) &bull; Stage 2 score (74/100) clears 70+ threshold &bull; Fits within Sales Dept Quota.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="toast('Promotion approved and committed to master ledger!')" class="px-5 py-2 bg-daikoAccent text-white font-bold rounded-xl shadow-md hover:bg-purple-700 transition-all">
+                ✓ Approve Promotion to L3
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-daikoNavy text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/20 text-xs font-bold flex items-center gap-2 z-50">
+    <span class="text-emerald-400">✓</span>
+    <span id="toastMsg">Action saved.</span>
+  </div>
+
+  <!-- JavaScript Single-Page Progressive Drilldown Controller -->
+  <script>
+    function drillDownManager(mgrId) {
+      document.querySelectorAll('.mgr-card').forEach(c => {
+        c.classList.remove('border-2', 'border-daikoAccent', 'bg-purple-50/20');
+        c.classList.add('border', 'border-daikoBorder', 'bg-white');
+      });
+
+      const activeCard = document.getElementById(`card-mgr-${mgrId}`);
+      activeCard.classList.add('border-2', 'border-daikoAccent', 'bg-purple-50/20');
+      activeCard.classList.remove('border-daikoBorder', 'bg-white');
+
+      const mgrNames = {
+        harshad: "Harshad Agashe (Sales & Growth)",
+        nilesh: "Nilesh Hiray (Tech & Platform)",
+        pooja: "Pooja Sharma (Operations & People)"
+      };
+
+      document.getElementById('teamGridTitle').innerText = `2. ${mgrNames[mgrId]}'s Team Members — Select Person for KPI & Root-Cause`;
+      document.getElementById('section-team-grid').scrollIntoView({ behavior: 'smooth' });
+      toast(`Loaded team breakdown for ${mgrNames[mgrId]}`);
+    }
+
+    function drillDownPerson(repId) {
+      document.querySelectorAll('.rep-card').forEach(c => {
+        c.classList.remove('border-2', 'border-daikoAccent', 'bg-purple-50/20');
+        c.classList.add('border', 'border-daikoBorder', 'bg-white');
+      });
+
+      const activeRep = document.getElementById(`card-rep-${repId}`);
+      activeRep.classList.add('border-2', 'border-daikoAccent', 'bg-purple-50/20');
+      activeRep.classList.remove('border-daikoBorder', 'bg-white');
+
+      const repDetails = {
+        anushka: { name: "Anushka Yadav — Sales & Platform Specialist", target: "L2 → L3 Senior Specialist" },
+        nilesh_rep: { name: "Nilesh Sharma — Technical Sales Associate", target: "L2 → L3 Senior Associate" },
+        vishal: { name: "Vishal Verma — Enterprise Account Exec", target: "L3 → L4 Lead Account Director" }
+      };
+
+      document.getElementById('detailPersonName').innerText = repDetails[repId].name;
+      document.getElementById('section-person-detail').scrollIntoView({ behavior: 'smooth' });
+      toast(`Loaded KPI scorecards & root causes for ${repDetails[repId].name.split('—')[0]}`);
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 2200);
+    }
+  </script>
+</body>
+</html>

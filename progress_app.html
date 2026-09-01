@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DAIKO — Employee Progress & Journey</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            daikoNavy: '#1E1259',
+            daikoPurple: '#4A2EC7',
+            daikoLightPurple: '#6A4AEB',
+            daikoBg: '#F5F3FF',
+            daikoCard: '#FFFFFF',
+            daikoBorder: '#ECE8FF',
+            daikoTagMeets: '#E6F4EA',
+            daikoTagMeetsText: '#137333',
+            daikoTagExceeds: '#E8F0FE',
+            daikoTagExceedsText: '#1A73E8',
+            daikoTagGap: '#FEF3F2',
+            daikoTagGapText: '#D92D20',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8F7FD; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #DCD6FA; border-radius: 9999px; }
+  </style>
+</head>
+<body class="text-slate-800 flex h-screen overflow-hidden select-none">
+
+  <!-- ========================================================================= -->
+  <!-- SCREEN 1: THE INTERNAL DAIKO APP LAUNCHER (internal.daiko.app)             -->
+  <!-- ========================================================================= -->
+  <div id="screen-launcher" class="w-full h-full bg-[#FBFBFE] flex flex-col justify-between p-8 overflow-y-auto">
+    <div class="max-w-6xl w-full mx-auto space-y-8">
+      
+      <!-- Top Bar -->
+      <div class="flex items-center justify-between pb-6 border-b border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-black text-[#1F1058] tracking-tight">DAIKŌ</span>
+          <span class="text-xs text-slate-400 font-bold uppercase ml-2 tracking-widest">Internal Suite</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-[#4828C5] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            AY
+          </div>
+          <span class="text-xs font-bold text-slate-800">Anushka Yadav</span>
+          <button onclick="toast('Signed out')" class="text-xs text-slate-400 hover:text-slate-700 font-semibold ml-2 border border-slate-200 px-3 py-1 rounded-lg">Sign out</button>
+        </div>
+      </div>
+
+      <!-- Micro-Apps Grid -->
+      <div class="space-y-6">
+        <div>
+          <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-4">AVAILABLE TO YOU</span>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            
+            <!-- App 1: ACCESS CONTROL -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm opacity-60 hover:opacity-100 transition-all cursor-pointer">
+              <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-extrabold text-xs mb-4">
+                AC
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">ACCESS CONTROL</h3>
+              <span class="text-xs text-slate-400 font-medium mt-1 block">Operator</span>
+            </div>
+
+            <!-- App 2: CHECK-IN -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm opacity-60 hover:opacity-100 transition-all cursor-pointer">
+              <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-extrabold text-xs mb-4">
+                C
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">CHECK-IN</h3>
+              <span class="text-xs text-slate-400 font-medium mt-1 block">Emp</span>
+            </div>
+
+            <!-- App 3: LEAVE MANAGEMENT -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm opacity-60 hover:opacity-100 transition-all cursor-pointer">
+              <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-extrabold text-xs mb-4">
+                LM
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">LEAVE MANAGEMENT</h3>
+              <span class="text-xs text-slate-400 font-medium mt-1 block">Employee</span>
+            </div>
+
+            <!-- App 4: RnM-Ticket -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm opacity-60 hover:opacity-100 transition-all cursor-pointer">
+              <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-extrabold text-xs mb-4">
+                R
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">RnM-Ticket</h3>
+              <span class="text-xs text-slate-400 font-medium mt-1 block">Operator</span>
+            </div>
+
+            <!-- App 5: PROGRESS & JOURNEY (Target Micro-App) -->
+            <div onclick="openMicroApp('progress')" class="bg-gradient-to-br from-white to-purple-50 p-6 rounded-2xl border-2 border-[#4828C5] shadow-lg shadow-purple-900/5 hover:scale-[1.02] transition-all cursor-pointer relative overflow-hidden group">
+              <div class="w-8 h-8 rounded-lg bg-[#4828C5] text-white flex items-center justify-center font-extrabold text-xs mb-4 shadow-md">
+                PJ
+              </div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-extrabold text-[#1F1058] tracking-tight">PROGRESS & JOURNEY</h3>
+                <span class="text-xs font-bold text-[#4828C5] group-hover:translate-x-1 transition-all">Launch →</span>
+              </div>
+              <span class="text-xs text-slate-500 font-medium mt-1 block">Level Mastery & Promotion Gap Ledger</span>
+              <div class="mt-3 flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full w-fit">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>L2 Qualified &bull; L3 Evaluation Active</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-4">REQUEST ACCESS</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm opacity-60">
+              <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-extrabold text-xs mb-4">
+                UM
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">USER MANAGEMENT</h3>
+              <button class="mt-3 text-xs font-bold text-purple-700 bg-purple-50 border border-purple-200 px-3 py-1 rounded-lg">Request access</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center text-xs text-slate-400 pt-8 border-t border-slate-200">
+        DAIKO Process Operating System &bull; 2026 Internal Enterprise
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SCREEN 2: PROGRESS & JOURNEY MICRO-APP (Styled after lms.daiko.app)        -->
+  <!-- ========================================================================= -->
+  <div id="screen-progress" class="hidden w-full h-full flex overflow-hidden">
+    
+    <!-- Left Navigation Bar -->
+    <aside class="w-20 bg-[#4828C5] text-white flex flex-col justify-between items-center py-6 shrink-0 shadow-xl z-30">
+      <div class="flex flex-col items-center gap-6 w-full">
+        <!-- Logo Icon -->
+        <div onclick="backToLauncher()" class="w-10 h-10 rounded-2xl bg-white text-[#4828C5] flex items-center justify-center font-black text-lg cursor-pointer shadow-md hover:scale-105 transition-all">
+          D
+        </div>
+
+        <!-- Vertical Menu Tabs -->
+        <nav class="flex flex-col gap-2 w-full px-2 text-[10px] font-bold">
+          <button onclick="switchProgressTab('overview')" id="nav-btn-overview" class="p-nav-btn w-full py-3 rounded-xl bg-white/20 text-white flex flex-col items-center gap-1 transition-all">
+            <span class="text-base">📊</span>
+            <span>Dashboard</span>
+          </button>
+          <button onclick="switchProgressTab('l2')" id="nav-btn-l2" class="p-nav-btn w-full py-3 rounded-xl text-purple-200 hover:bg-white/10 flex flex-col items-center gap-1 transition-all">
+            <span class="text-base">🎯</span>
+            <span>L2 Mastery</span>
+          </button>
+          <button onclick="switchProgressTab('l3')" id="nav-btn-l3" class="p-nav-btn w-full py-3 rounded-xl text-purple-200 hover:bg-white/10 flex flex-col items-center gap-1 transition-all">
+            <span class="text-base">🚀</span>
+            <span>L3 Target</span>
+          </button>
+          <button onclick="switchProgressTab('gaps')" id="nav-btn-gaps" class="p-nav-btn w-full py-3 rounded-xl text-purple-200 hover:bg-white/10 flex flex-col items-center gap-1 transition-all">
+            <span class="text-base">🔍</span>
+            <span>Gap Analysis</span>
+          </button>
+          <button onclick="switchProgressTab('process')" id="nav-btn-process" class="p-nav-btn w-full py-3 rounded-xl text-purple-200 hover:bg-white/10 flex flex-col items-center gap-1 transition-all">
+            <span class="text-base">⚡</span>
+            <span>Process Insights</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="flex flex-col items-center gap-3">
+        <button onclick="backToLauncher()" title="Back to Suite Launcher" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-sm text-white">
+          ←
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <div class="flex-1 flex flex-col overflow-hidden bg-gradient-to-br from-[#F6F4FE] to-[#FBFBFE]">
+      
+      <!-- Top App Header -->
+      <header class="h-16 px-8 flex items-center justify-between shrink-0 border-b border-purple-100/60 bg-white/60 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-bold text-slate-400 uppercase">DAIKO JOURNEY</span>
+          <span class="text-slate-300">/</span>
+          <h2 class="text-sm font-extrabold text-[#1F1058]" id="topSectionTitle">Overview & Promotion Standing</h2>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-purple-100 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="text-xs font-bold text-slate-700">L2: 100/100 Qualified</span>
+            <span class="text-slate-300">|</span>
+            <span class="text-xs font-bold text-[#4828C5]">L3 Target: 74/100 (Pass: 70)</span>
+          </div>
+          <div class="w-8 h-8 rounded-xl bg-[#4828C5] text-white font-bold text-xs flex items-center justify-center shadow-sm">
+            AY
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable Container -->
+      <main class="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-6">
+        <div class="max-w-5xl mx-auto space-y-6">
+
+          <!-- =================================================================== -->
+          <!-- TAB 1: OVERVIEW & TWO-STAGE PROMOTION COCKPIT                       -->
+          <!-- =================================================================== -->
+          <div id="tab-content-overview" class="tab-pane space-y-6">
+            
+            <!-- Persona Header Card -->
+            <div class="bg-gradient-to-r from-[#4828C5] to-[#603BE8] text-white p-7 rounded-3xl shadow-xl shadow-purple-900/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full border border-white/20">
+                  CAREER PROGRESSION ENGINE
+                </span>
+                <h1 class="text-2xl font-extrabold mt-2 text-white">Anushka Yadav</h1>
+                <p class="text-xs text-purple-100 mt-1">Current Role: <strong>L2 Platform Engineer</strong> &bull; Department: <strong>Platform & Core Systems</strong></p>
+              </div>
+
+              <!-- Two-Stage Pass Status -->
+              <div class="flex items-center gap-3 bg-black/20 p-3.5 rounded-2xl border border-white/10 backdrop-blur-sm">
+                <div class="text-center px-3 border-r border-white/10">
+                  <span class="block text-[10px] text-purple-200 font-bold uppercase">Stage 1 (L2 Mastery)</span>
+                  <span class="text-lg font-black text-emerald-300">100 / 100</span>
+                  <span class="block text-[9px] text-emerald-300 font-bold">✓ Complete</span>
+                </div>
+                <div class="text-center px-3">
+                  <span class="block text-[10px] text-purple-200 font-bold uppercase">Stage 2 (L3 Readiness)</span>
+                  <span class="text-lg font-black text-white">74 / 100</span>
+                  <span class="block text-[9px] text-emerald-300 font-bold">✓ Above 70 Target</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROMOTION CRITERIA SUMMARY CARDS (Click to Expand Detail) -->
+            <div>
+              <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wide block mb-3">KEY EVALUATION PILLARS (CLICK TO EXPAND DETAILS)</span>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Pillar 1: Technical Mastery -->
+                <div onclick="switchProgressTab('l3')" class="bg-white p-5 rounded-2xl border border-purple-100/80 shadow-sm hover:border-[#4828C5] hover:shadow-md cursor-pointer transition-all space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase">TECHNICAL COMPETENCIES</span>
+                    <span class="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">34 / 40 Pts</span>
+                  </div>
+                  <div class="text-base font-extrabold text-slate-900">Architecture & System Design</div>
+                  <p class="text-xs text-slate-500">API Gateway latency sub-85ms delivered. Staging failover verified.</p>
+                  <div class="pt-2 border-t border-slate-100 flex justify-between text-xs text-[#4828C5] font-bold">
+                    <span>Inspect Criteria Matrix</span> <span>→</span>
+                  </div>
+                </div>
+
+                <!-- Pillar 2: Delivery & Office Reliability -->
+                <div onclick="switchProgressTab('process')" class="bg-white p-5 rounded-2xl border border-purple-100/80 shadow-sm hover:border-[#4828C5] hover:shadow-md cursor-pointer transition-all space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase">OFFICE EXECUTION & 1:1s</span>
+                    <span class="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">25 / 30 Pts</span>
+                  </div>
+                  <div class="text-base font-extrabold text-slate-900">Sprint Cadence & Reliability</div>
+                  <p class="text-xs text-slate-500">100% 1:1 attendance verified. Proactive blocker resolution.</p>
+                  <div class="pt-2 border-t border-slate-100 flex justify-between text-xs text-[#4828C5] font-bold">
+                    <span>Inspect Process Signals</span> <span>→</span>
+                  </div>
+                </div>
+
+                <!-- Pillar 3: Gaps & Next Steps -->
+                <div onclick="switchProgressTab('gaps')" class="bg-white p-5 rounded-2xl border border-purple-100/80 shadow-sm hover:border-[#4828C5] hover:shadow-md cursor-pointer transition-all space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase">PROMOTION GAPS</span>
+                    <span class="text-xs font-extrabold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">15 / 30 Pts</span>
+                  </div>
+                  <div class="text-base font-extrabold text-slate-900">Security & Key Rotation</div>
+                  <p class="text-xs text-slate-500">Manual secret audits require automation before final sign-off.</p>
+                  <div class="pt-2 border-t border-slate-100 flex justify-between text-xs text-amber-700 font-bold">
+                    <span>View Gap Analysis</span> <span>→</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- PROMOTION APPROVAL READINESS BAR (At the bottom) -->
+            <div class="bg-white border border-purple-100 p-5 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Promotion Review Status</span>
+                <div class="text-sm font-extrabold text-slate-900 mt-0.5">Stage 1 (100/100) Passed &bull; Stage 2 Score: 74/100 (Threshold: 70+)</div>
+                <p class="text-xs text-slate-500">Candidate meets requirements for L3 Senior Platform Engineer review.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  ✓ Eligible for Calibration Approval
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- =================================================================== -->
+          <!-- TAB 2: L2 MASTERY DETAIL (Stage 1: Must be 100/100)                 -->
+          <!-- =================================================================== -->
+          <div id="tab-content-l2" class="tab-pane hidden space-y-5">
+            <div class="bg-white border border-purple-100 p-6 rounded-2xl shadow-sm space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h3 class="text-base font-extrabold text-[#1F1058]">Stage 1: Current Level Mastery (L2 Platform Engineer)</h3>
+                  <p class="text-xs text-slate-500">Rule: Employee must achieve 100% mastery on L2 competencies to be evaluated for L3.</p>
+                </div>
+                <span class="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                  Score: 100 / 100 (PASSED)
+                </span>
+              </div>
+
+              <!-- Criteria Rows -->
+              <div class="space-y-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-[#FBFBFE] border border-purple-50 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800">L2.1: Write reliable, tested unit code & API endpoints</span>
+                    <p class="text-slate-500 mt-0.5">Evidence: 100% test coverage on authentication endpoints (PR #112).</p>
+                  </div>
+                  <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">25/25 &bull; Meets</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-[#FBFBFE] border border-purple-50 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800">L2.2: Consistent 1:1 cadence and task accountability</span>
+                    <p class="text-slate-500 mt-0.5">Evidence: Zero missed syncs; action items closed within SLA.</p>
+                  </div>
+                  <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">25/25 &bull; Meets</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-[#FBFBFE] border border-purple-50 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800">L2.3: Database schema migrations without production latency</span>
+                    <p class="text-slate-500 mt-0.5">Evidence: PostgreSQL partition migration executed cleanly.</p>
+                  </div>
+                  <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">25/25 &bull; Meets</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-[#FBFBFE] border border-purple-50 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800">L2.4: Effective sprint coordination & collaboration</span>
+                    <p class="text-slate-500 mt-0.5">Evidence: Peer feedback from Nilesh (DevOps) and QA validated.</p>
+                  </div>
+                  <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">25/25 &bull; Meets</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================================================== -->
+          <!-- TAB 3: L3 TARGET COMPETENCIES (Stage 2: Target 70+ Pts)              -->
+          <!-- =================================================================== -->
+          <div id="tab-content-l3" class="tab-pane hidden space-y-5">
+            <div class="bg-white border border-purple-100 p-6 rounded-2xl shadow-sm space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h3 class="text-base font-extrabold text-[#1F1058]">Stage 2: Next Level Target Criteria (L3 Senior Engineer)</h3>
+                  <p class="text-xs text-slate-500">Evaluation Threshold: Minimum 70 points required for promotion approval recommendation.</p>
+                </div>
+                <span class="text-xs font-extrabold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
+                  Current Score: 74 / 100 (QUALIFIED)
+                </span>
+              </div>
+
+              <!-- L3 Detailed Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr class="bg-purple-50/50 text-slate-700 font-bold border-b border-purple-100">
+                      <th class="py-2.5 px-3">L3 Target Competency Criteria</th>
+                      <th class="py-2.5 px-2 text-center">Self-Assessment</th>
+                      <th class="py-2.5 px-2 text-center">Manager Evaluation</th>
+                      <th class="py-2.5 px-3">Factual Evidence Log</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 font-medium">
+                    <tr>
+                      <td class="py-3 px-3 font-semibold text-slate-900">System Architecture & Scalable API Design (Max: 30 pts)</td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold">Exceeds (28 pts)</span></td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (26 pts)</span></td>
+                      <td class="py-3 px-3 text-slate-600">Delivered API Gateway latency sub-85ms (Jira #PR-142).</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-3 font-semibold text-slate-900">Cross-Team Unblocking & 1:1 Cadence (Max: 30 pts)</td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (25 pts)</span></td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (25 pts)</span></td>
+                      <td class="py-3 px-3 text-slate-600">Unblocked QA dependency; 100% 1:1 attendance verified.</td>
+                    </tr>
+                    <tr class="bg-amber-50/30">
+                      <td class="py-3 px-3 font-semibold text-slate-900">Cloud Security Governance & Secrets (Max: 20 pts)</td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">Needs Opp (10 pts)</span></td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">Needs Opp (10 pts)</span></td>
+                      <td class="py-3 px-3 text-amber-800">Enrolled in internal Cloud IAM training cohort.</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-3 font-semibold text-slate-900">Mentorship & Architecture RFCs (Max: 20 pts)</td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (15 pts)</span></td>
+                      <td class="py-3 px-2 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold">Meets (13 pts)</span></td>
+                      <td class="py-3 px-3 text-slate-600">Authored onboarding runbook with 14 team upvotes.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================================================== -->
+          <!-- TAB 4: GAP ANALYSIS (Where are you falling short?)                  -->
+          <!-- =================================================================== -->
+          <div id="tab-content-gaps" class="tab-pane hidden space-y-5">
+            <div class="bg-white border border-purple-100 p-6 rounded-2xl shadow-sm space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h3 class="text-base font-extrabold text-[#1F1058]">Target Gap Analysis: Where Anushka is Falling Short</h3>
+                  <p class="text-xs text-slate-500">Breakdown of specific deficiencies between current score (74) and top ceiling (100).</p>
+                </div>
+                <span class="text-xs font-bold text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                  Gap: 26 Points to Close
+                </span>
+              </div>
+
+              <!-- Gap Cards -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                
+                <div class="p-4 rounded-xl bg-red-50/50 border border-red-100 space-y-2">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-red-900">GAP 1: Cloud IAM Secret Rotation (-10 pts)</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 bg-red-100 text-red-800 rounded">High Priority</span>
+                  </div>
+                  <p class="text-slate-600">Manual key rotation practices do not meet L3 security compliance requirements.</p>
+                  <div class="p-2 bg-white rounded-lg border border-red-100 text-slate-700">
+                    <strong>Action Required:</strong> Implement automated HashiCorp Vault secrets rotation by sprint #44.
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-100 space-y-2">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-amber-900">GAP 2: Cross-Department RFC Authoring (-7 pts)</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">Medium Priority</span>
+                  </div>
+                  <p class="text-slate-600">Needs to independently lead 1 major cross-department architecture RFC.</p>
+                  <div class="p-2 bg-white rounded-lg border border-amber-100 text-slate-700">
+                    <strong>Action Required:</strong> Publish and lead review for the Event-Driven Message Broker RFC.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- =================================================================== -->
+          <!-- TAB 5: PROCESS INSIGHTS (How process signals look like)             -->
+          <!-- =================================================================== -->
+          <div id="tab-content-process" class="tab-pane hidden space-y-5">
+            <div class="bg-white border border-purple-100 p-6 rounded-2xl shadow-sm space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h3 class="text-base font-extrabold text-[#1F1058]">Live Process Insights & Operational Signals</h3>
+                  <p class="text-xs text-slate-500">Telemetry signals pulled passively from Calendar, Jira, and Slack interactions.</p>
+                </div>
+                <span class="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                  Telemetry Health: 94%
+                </span>
+              </div>
+
+              <!-- Signal Cards (From Prototype Design) -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div class="p-4 rounded-xl bg-[#FBFBFE] border border-purple-100 space-y-1">
+                  <span class="text-[10px] font-bold text-slate-400 uppercase">1:1 CADENCE SIGNAL</span>
+                  <div class="text-lg font-black text-[#1F1058]">100% On-Time</div>
+                  <p class="text-slate-500 text-[11px]">8 of 8 standing syncs completed with manager.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-[#FBFBFE] border border-purple-100 space-y-1">
+                  <span class="text-[10px] font-bold text-slate-400 uppercase">TASK CARRYOVER DRIFT</span>
+                  <div class="text-lg font-black text-emerald-700">88% Closure</div>
+                  <p class="text-slate-500 text-[11px]">18 of 21 1:1 action items completed without rollover.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-[#FBFBFE] border border-purple-100 space-y-1">
+                  <span class="text-[10px] font-bold text-slate-400 uppercase">PEER RELIABILITY SCORE</span>
+                  <div class="text-lg font-black text-purple-700">4.8 / 5.0</div>
+                  <p class="text-slate-500 text-[11px]">3 verified positive kudos received this quarter.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-[#1F1058] text-white px-5 py-3 rounded-2xl shadow-2xl border border-purple-400/30 text-xs font-bold flex items-center gap-2 z-50">
+    <span class="text-emerald-400">✓</span>
+    <span id="toastMsg">Action saved.</span>
+  </div>
+
+  <!-- JavaScript Controls -->
+  <script>
+    function openMicroApp(appName) {
+      document.getElementById('screen-launcher').classList.add('hidden');
+      document.getElementById('screen-progress').classList.remove('hidden');
+      switchProgressTab('overview');
+    }
+
+    function backToLauncher() {
+      document.getElementById('screen-progress').classList.add('hidden');
+      document.getElementById('screen-launcher').classList.remove('hidden');
+    }
+
+    function switchProgressTab(tabName) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.p-nav-btn').forEach(btn => {
+        btn.classList.remove('bg-white/20', 'text-white');
+        btn.classList.add('text-purple-200');
+      });
+
+      document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav-btn-${tabName}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white/20', 'text-white');
+        activeBtn.classList.remove('text-purple-200');
+      }
+
+      const titles = {
+        overview: 'Overview & Two-Stage Progression Standing',
+        l2: 'Stage 1: Current Level Mastery (L2 Criteria)',
+        l3: 'Stage 2: Next Level Target Evaluation (L3 Criteria)',
+        gaps: 'Promotion Gap Analysis & Deficiencies',
+        process: 'Live Process Insights & Operational Signals'
+      };
+      document.getElementById('topSectionTitle').innerText = titles[tabName];
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 2200);
+    }
+  </script>
+</body>
+</html>
